@@ -69,15 +69,31 @@ public class MergeSort {
 	 * @param destination the destination array.
 	 */
 	private static <T extends Comparable<T>> void merge(T[] source, int left, int mid, int right, T[] destination) {
-		/*
-		 * TODO
-		 * While there are elements in both sub-arrays to merge,
-		 * populate destination by taking the smaller of the two each time.
-		 * Refer to the GIF in the README for reference.
-		 *
-		 * The solution can be found in PrettyMergeSort, but give it a shot
-		 * here before you take a look! ;)
-		 */
+		int i = left;
+		int j = mid + 1;
+		int k = left;
+
+		// while there is elements in both sub-arrays to merge
+		while ((i <= mid) && (j <= right)) {
+			// take the smaller of the two
+			if (source[i].compareTo(source[j]) <= 0) {
+				destination[k++] = source[i++];
+			}
+			else {
+				destination[k++] = source[j++];
+			}
+		}
+		// merge the remaining element directly
+		if (i > mid) {
+			while (j <= right) {
+				destination[k++] = source[j++];
+			}
+		}
+		else {
+			while (i <= mid) {
+				destination[k++] = source[i++];
+			}
+		}
 	}
 
 	/**
@@ -94,16 +110,26 @@ public class MergeSort {
 	 * @return the index of the target element in the array, or -1 if it is not found
 	 */
 	public static <T extends Comparable<T>> int binarySearch(T[] elements, T target, int start, int end) {
-		/*
-		 * TODO
-		 * 1. Base case: start index is greater than end index.
-		 * 2. Calculate the middle index.
-		 * 3. If the middle element is the target, return its index.
-		 * 4. If the target is less than the middle element, search the left half of the array.
-		 * 5. If the target is greater than the middle element, search the right half of the array.
-		 */
+		// Base case: start index is greater than end index.
+		if (start > end) {
+			return -1;
+		}
 
-		return 0;
+		// Calculate the middle index.
+		int mid = start + (end - start) / 2;
+
+		// If the middle element is the target, return its index.
+		if (elements[mid].equals(target)) {
+			return mid;
+		}
+
+		// If the target is less than the middle element, search the left half of the array.
+		if (elements[mid].compareTo(target) > 0) {
+			return binarySearch(elements, target, start, mid - 1);
+		}
+
+		// If the target is greater than the middle element, search the right half of the array.
+		return binarySearch(elements, target, mid + 1, end);
 	}
 
 }
